@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppButton from '../components/WhatsAppButton';
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    service: '',
-    budget: '',
-    message: ''
+    Full_Name: '',
+    Email_Address: '',
+    Phone_Number: '',
+    Company_Name: '',
+    Service_Interest: '',
+    Project_Budget: '',
+    Project_Details: '',
+    Current_Stack: '',
+    Biggest_Challenge: ''
   });
 
   const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     setIsVisible(true);
@@ -28,11 +33,52 @@ const ContactPage: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We\'ll get back to you within 24 hours.');
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Initialize EmailJS with your public key (replace 'YOUR_PUBLIC_KEY' with your actual public key)
+      emailjs.init('Db4TAst00TIb7TuLO');
+      
+      const templateParams = {
+        Full_Name: formData.Full_Name,
+        Email_Address: formData.Email_Address,
+        Company_Name: formData.Company_Name,
+        Current_Stack: formData.Current_Stack,
+        Biggest_Challenge: formData.Biggest_Challenge,
+        Phone_Number: formData.Phone_Number,
+        Service_Interest: formData.Service_Interest,
+        Project_Budget: formData.Project_Budget,
+        Project_Details: formData.Project_Details,
+      };
+
+      await emailjs.send(
+        'service_v46y05j', // Your service ID
+        'template_l94ktds', // Your template ID
+        templateParams
+      );
+
+      setSubmitStatus('success');
+      // Reset form
+      setFormData({
+        Full_Name: '',
+        Email_Address: '',
+        Phone_Number: '',
+        Company_Name: '',
+        Service_Interest: '',
+        Project_Budget: '',
+        Project_Details: '',
+        Current_Stack: '',
+        Biggest_Challenge: ''
+      });
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -93,26 +139,26 @@ const ContactPage: React.FC = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                      <label htmlFor="Full_Name" className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
                       <input
                         type="text"
-                        id="name"
-                        name="name"
+                        id="Full_Name"
+                        name="Full_Name"
                         required
-                        value={formData.name}
+                        value={formData.Full_Name}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                         placeholder="Your full name"
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                      <label htmlFor="Email_Address" className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
                       <input
                         type="email"
-                        id="email"
-                        name="email"
+                        id="Email_Address"
+                        name="Email_Address"
                         required
-                        value={formData.email}
+                        value={formData.Email_Address}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                         placeholder="your@email.com"
@@ -122,24 +168,24 @@ const ContactPage: React.FC = () => {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                      <label htmlFor="Phone_Number" className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                       <input
                         type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
+                        id="Phone_Number"
+                        name="Phone_Number"
+                        value={formData.Phone_Number}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                         placeholder="+91-XXXXXXXXXX"
                       />
                     </div>
                     <div>
-                      <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                      <label htmlFor="Company_Name" className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
                       <input
                         type="text"
-                        id="company"
-                        name="company"
-                        value={formData.company}
+                        id="Company_Name"
+                        name="Company_Name"
+                        value={formData.Company_Name}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                         placeholder="Your company"
@@ -147,14 +193,41 @@ const ContactPage: React.FC = () => {
                     </div>
                   </div>
 
+                  <div>
+                    <label htmlFor="Current_Stack" className="block text-sm font-medium text-gray-700 mb-2">Current Tech Stack</label>
+                    <input
+                      type="text"
+                      id="Current_Stack"
+                      name="Current_Stack"
+                      value={formData.Current_Stack}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      placeholder="e.g., HubSpot, Salesforce, Pipedrive..."
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="Biggest_Challenge" className="block text-sm font-medium text-gray-700 mb-2">Biggest Challenge *</label>
+                    <textarea
+                      id="Biggest_Challenge"
+                      name="Biggest_Challenge"
+                      required
+                      rows={3}
+                      value={formData.Biggest_Challenge}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      placeholder="What are your biggest business challenges right now?"
+                    ></textarea>
+                  </div>
+
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-2">Service Interest *</label>
+                      <label htmlFor="Service_Interest" className="block text-sm font-medium text-gray-700 mb-2">Service Interest *</label>
                       <select
-                        id="service"
-                        name="service"
+                        id="Service_Interest"
+                        name="Service_Interest"
                         required
-                        value={formData.service}
+                        value={formData.Service_Interest}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       >
@@ -168,11 +241,11 @@ const ContactPage: React.FC = () => {
                       </select>
                     </div>
                     <div>
-                      <label htmlFor="budget" className="block text-sm font-medium text-gray-700 mb-2">Project Budget</label>
+                      <label htmlFor="Project_Budget" className="block text-sm font-medium text-gray-700 mb-2">Project Budget</label>
                       <select
-                        id="budget"
-                        name="budget"
-                        value={formData.budget}
+                        id="Project_Budget"
+                        name="Project_Budget"
+                        value={formData.Project_Budget}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       >
@@ -186,24 +259,62 @@ const ContactPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Project Details *</label>
+                    <label htmlFor="Project_Details" className="block text-sm font-medium text-gray-700 mb-2">Project Details *</label>
                     <textarea
-                      id="message"
-                      name="message"
+                      id="Project_Details"
+                      name="Project_Details"
                       required
                       rows={4}
-                      value={formData.message}
+                      value={formData.Project_Details}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="Tell us about your project requirements, challenges, and goals..."
                     ></textarea>
                   </div>
 
+                  {/* Success/Error Messages */}
+                  {submitStatus === 'success' && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        <p className="text-green-700 font-medium">Message sent successfully! We'll get back to you within 24 hours.</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {submitStatus === 'error' && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                        </svg>
+                        <p className="text-red-700 font-medium">Failed to send message. Please try again or contact us directly.</p>
+                      </div>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200"
+                    disabled={isSubmitting}
+                    className={`w-full px-8 py-4 rounded-lg font-semibold transition-all duration-200 ${
+                      isSubmitting
+                        ? 'bg-gray-400 text-white cursor-not-allowed'
+                        : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg transform hover:scale-[1.02]'
+                    }`}
                   >
-                    Send Message & Get Free Consultation
+                    {isSubmitting ? (
+                      <div className="flex items-center justify-center">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Sending Message...
+                      </div>
+                    ) : (
+                      'Send Message & Get Free Consultation'
+                    )}
                   </button>
                 </form>
               </div>
