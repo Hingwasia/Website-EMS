@@ -108,17 +108,14 @@ const ResultsSection: React.FC = () => {
     { name: 'Hero Vired', logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz0BadvHO2fQDKyZ2tvVfjguoWAJJI72qruw&s' },
     { name: 'Humanize Tech', logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqzyn3ZM7Pu7vteR-grN3ESx6Y6GObg-WQlA&s' },
     { name: 'Kyno Health', logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDua0TnatQD6CwdVGlWpIrHD6kDGKQXXzVLg&s' },
-    { name: 'Steam Pro', logo: '🧹' },
     { name: 'Fitpass', logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCa8xmxfhUHjygnnh_a17uXMebJ7Yerdk6eg&s' },
     { name: 'Hair Originals', logo: 'https://bsmedia.business-standard.com/_media/bs/img/article/2022-01/18/full/20220118151116.jpg' },
     { name: 'Frido', logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRlc4ooykJCypYpRUYpnKxusCvP0tPtBpSTw&s' },
     { name: 'Raheja Developers', logo: 'https://bsmedia.business-standard.com/_media/bs/img/article/2020-07/17/full/20200717133531.jpg' },
     { name: 'Buniyaad Realty', logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtryTFnBbP6YWFSKPQWS0gdwUvASnOuxsY8A&s' },
     { name: 'Multimoney Forex', logo: 'https://www.multimoney.co.in/blog/wp-content/uploads/2024/11/logo.png' },
-    { name: 'Capture a Trip', logo: '📸' },
     { name: 'Urbando Housing', logo: 'https://urbando.in/wp-content/uploads/2022/06/urbando-new.png' },
     { name: 'Zo World (Zostel)', logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdLrYopfYHY2yL5b0WwLGhFbra88unVPA_7A&s' },
-    { name: 'MDRC', logo: '🔬' },
     { name: 'HCL Avitas', logo: 'https://mir-s3-cdn-cf.behance.net/projects/404/20845733.544f42f12100d.jpg' }
   ];
 
