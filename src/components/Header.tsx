@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import logoIcon from '../assets/logo-icon.svg';
 
 // Sparkling AI Icon Component
 const SparkleIcon: React.FC = () => {
@@ -68,7 +69,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <img src="/src/assets/logo-icon.svg" alt="EaseMySaaS Logo" className="w-10 h-10" />
+            <img src={logoIcon} alt="EaseMySaaS Logo" className="w-10 h-10" />
             <span className="text-xl font-bold text-gray-900">EaseMySaaS</span>
           </Link>
 
