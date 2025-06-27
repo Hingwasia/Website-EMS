@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import logoIcon from '../assets/logo-icon.svg';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -33,7 +34,7 @@ const Footer: React.FC = () => {
             {/* Company Info */}
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-3 mb-6">
-                <img src="/src/assets/logo-icon.svg" alt="EaseMySaaS Logo" className="w-10 h-10" />
+                <img src={logoIcon} alt="EaseMySaaS Logo" className="w-10 h-10" />
                 <span className="text-xl font-bold">EaseMySaaS</span>
               </div>
               <p className="text-gray-400 mb-6 leading-relaxed">
