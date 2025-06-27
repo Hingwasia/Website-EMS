@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import SEO from '../components/SEO';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppButton from '../components/WhatsAppButton';
@@ -31,6 +32,13 @@ const AboutPage: React.FC = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO 
+        title="About EaseMySaaS - Transforming Businesses with AI"
+        description="Learn about EaseMySaaS and our mission to transform chaos into revenue. We help B2B startups build scalable AI solutions and streamline operations with 200+ successful transformations."
+        keywords="about EaseMySaaS, AI company story, SaaS development team, business transformation, AI consulting company, B2B automation experts"
+        url="https://www.easemysaas.com/about"
+        type="about"
+      />
       <Header />
       
       <main ref={sectionRef} className="pt-20">

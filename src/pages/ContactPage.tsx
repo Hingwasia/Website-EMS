@@ -1,10 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
+import SEO from '../components/SEO';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppButton from '../components/WhatsAppButton';
 
 const ContactPage: React.FC = () => {
+  const contactStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "EaseMySaaS",
+      "url": "https://www.easemysaas.com",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91 95820 24696",
+        "contactType": "customer service",
+        "availableLanguage": "English",
+        "areaServed": "Worldwide"
+      }
+    }
+  };
+
   const [formData, setFormData] = useState({
     Full_Name: '',
     Email_Address: '',
@@ -83,6 +101,14 @@ const ContactPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO 
+        title="Contact Us - Get AI Solutions for Your Business"
+        description="Ready to transform your business with AI? Contact EaseMySaaS for custom AI solutions, automation, and SaaS development. Free consultation available. 24/7 support."
+        keywords="contact AI company, AI consultation, SaaS development inquiry, business automation contact, AI solutions contact, get AI help"
+        url="https://www.easemysaas.com/contact"
+        type="website"
+        structuredData={contactStructuredData}
+      />
       <Header />
       <WhatsAppButton />
 
