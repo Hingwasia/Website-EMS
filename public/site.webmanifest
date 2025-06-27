@@ -1,0 +1,17 @@
+{
+  "name": "EaseMySaaS - AI Business Automation",
+  "short_name": "EaseMySaaS",
+  "description": "Transform your business with AI-powered automation and custom CRM solutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6",
+  "icons": [
+    {
+      "src": "/logo-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+} 

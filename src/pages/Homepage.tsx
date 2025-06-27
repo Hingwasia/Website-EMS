@@ -21,19 +21,19 @@ const Homepage: React.FC = () => {
       "https://www.linkedin.com/company/easemysaas",
       "https://twitter.com/easemysaas"
     ],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+1-XXX-XXX-XXXX",
-      "contactType": "customer service"
-    }
+         "contactPoint": {
+       "@type": "ContactPoint",
+       "telephone": "+91 95820 24696",
+       "contactType": "customer service"
+     }
   };
 
   return (
     <div className="min-h-screen">
       <SEO 
-        title="EaseMySaaS - AI-Powered SaaS Solutions for Business Growth"
-        description="Transform your business with AI-powered SaaS solutions. We help businesses streamline operations, boost productivity, and drive growth through custom AI integrations and automation."
-        keywords="AI SaaS solutions, business automation, artificial intelligence, SaaS development, business growth, AI integration, productivity tools, custom SaaS"
+        title="EaseMySaaS - AI-Powered Business Automation & CRM Solutions"
+        description="🚀 Transform your business with AI automation! Custom CRM solutions, intelligent workflows, and SaaS development. 200+ successful transformations. Free consultation available."
+        keywords="AI business automation, custom CRM solutions, SaaS development, AI integration, business transformation, intelligent workflows, productivity automation, B2B SaaS"
         url="https://www.easemysaas.com"
         structuredData={structuredData}
       />
