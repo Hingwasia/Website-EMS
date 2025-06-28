@@ -30,14 +30,55 @@ const AboutPage: React.FC = () => {
     };
   }, []);
 
+  const aboutStructuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "AboutPage",
+        "mainEntity": {
+          "@type": "Organization",
+          "name": "EaseMySaaS",
+          "url": "https://www.easemysaas.com",
+          "description": "EaseMySaaS transforms chaos into revenue by helping B2B startups turn chaotic sales funnels into clean, repeatable engines that drive revenue.",
+          "foundingDate": "2024",
+          "mission": "Transform chaos into revenue through AI-powered business automation",
+          "knowsAbout": [
+            "AI Business Automation",
+            "Sales Funnel Optimization",
+            "CRM Implementation",
+            "Business Process Automation"
+          ]
+        }
+      },
+      {
+        "@type": "WebPage",
+        "name": "About EaseMySaaS",
+        "description": "Learn about our mission to transform businesses with AI automation",
+        "url": "https://www.easemysaas.com/about"
+      },
+      {
+        "@type": "Organization",
+        "name": "EaseMySaaS",
+        "slogan": "You don't need a big team or a big budget to scale - you need clarity, ownership, and process",
+        "description": "We help B2B startups turn chaotic sales funnels into clean, repeatable engines that drive revenue through deeply involved consulting and custom-built solutions.",
+        "numberOfEmployees": "10-50",
+        "serviceArea": {
+          "@type": "Place",
+          "name": "Worldwide"
+        }
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen">
       <SEO 
         title="About EaseMySaaS - Transforming Businesses with AI"
-        description="Learn about EaseMySaaS and our mission to transform chaos into revenue. We help B2B startups build scalable AI solutions and streamline operations with 200+ successful transformations."
+        description="Learn about EaseMySaaS and our mission to transform chaos into revenue. We help B2B startups build scalable AI solutions and streamline operations with 300+ successful transformations."
         keywords="about EaseMySaaS, AI company story, SaaS development team, business transformation, AI consulting company, B2B automation experts"
         url="https://www.easemysaas.com/about"
         type="about"
+        structuredData={aboutStructuredData}
       />
       <Header />
       

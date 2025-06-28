@@ -7,6 +7,37 @@ import PrivacyPolicyHeroSection from '../components/privacy-policy/PrivacyPolicy
 import PrivacyPolicyContentSection from '../components/privacy-policy/PrivacyPolicyContentSection';
 
 const PrivacyPolicyPage: React.FC = () => {
+  const privacyStructuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "name": "Privacy Policy - EaseMySaaS",
+        "description": "Privacy policy explaining how EaseMySaaS protects user data and respects privacy",
+        "url": "https://www.easemysaas.com/privacy-policy",
+        "mainEntity": {
+          "@type": "Article",
+          "headline": "EaseMySaaS Privacy Policy",
+          "description": "Our privacy policy outlines how we collect, use, and protect your personal information",
+          "author": {
+            "@type": "Organization",
+            "name": "EaseMySaaS"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "EaseMySaaS"
+          }
+        }
+      },
+      {
+        "@type": "Organization",
+        "name": "EaseMySaaS",
+        "url": "https://www.easemysaas.com",
+        "privacyPolicy": "https://www.easemysaas.com/privacy-policy"
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen">
       <SEO 
@@ -15,6 +46,7 @@ const PrivacyPolicyPage: React.FC = () => {
         keywords="privacy policy, data protection, EaseMySaaS privacy, user data security, AI data privacy, SaaS privacy policy"
         url="https://www.easemysaas.com/privacy-policy"
         type="website"
+        structuredData={privacyStructuredData}
       />
       <Header />
       <main className="pt-20">

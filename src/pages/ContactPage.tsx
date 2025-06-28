@@ -8,19 +8,55 @@ import WhatsAppButton from '../components/WhatsAppButton';
 const ContactPage: React.FC = () => {
   const contactStructuredData = {
     "@context": "https://schema.org",
-    "@type": "ContactPage",
-    "mainEntity": {
-      "@type": "Organization",
-      "name": "EaseMySaaS",
-      "url": "https://www.easemysaas.com",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+91 95820 24696",
-        "contactType": "customer service",
-        "availableLanguage": "English",
-        "areaServed": "Worldwide"
+    "@graph": [
+      {
+        "@type": "ContactPage",
+        "mainEntity": {
+          "@type": "Organization",
+          "name": "EaseMySaaS",
+          "url": "https://www.easemysaas.com",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91 95820 24696",
+            "contactType": "customer service",
+            "availableLanguage": "English",
+            "areaServed": "Worldwide",
+            "contactOption": "TollFree"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IN"
+          }
+        }
+      },
+      {
+        "@type": "WebPage",
+        "name": "Contact EaseMySaaS",
+        "description": "Get in touch with EaseMySaaS for AI automation and CRM solutions",
+        "url": "https://www.easemysaas.com/contact",
+        "mainEntity": {
+          "@type": "ContactPoint",
+          "telephone": "+91 95820 24696",
+          "contactType": "customer service"
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Free AI Consultation",
+        "description": "Get a free consultation for AI automation and CRM solutions",
+        "provider": {
+          "@type": "Organization",
+          "name": "EaseMySaaS"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "name": "Free Consultation"
+        }
       }
-    }
+    ]
   };
 
   const [formData, setFormData] = useState({
