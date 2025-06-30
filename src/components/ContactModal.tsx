@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import emailjs from '@emailjs/browser';
+import { sendEmail } from '../utils/emailjs';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -37,8 +37,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
     setSubmitStatus('idle');
 
     try {
-      emailjs.init('Db4TAst00TIb7TuLO');
-      
       const templateParams = {
         Full_Name: formData.Full_Name,
         Email_Address: formData.Email_Address,
@@ -51,11 +49,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         Project_Details: formData.Project_Details || 'Discovery call request',
       };
 
-      await emailjs.send(
-        'service_v46y05j',
-        'template_l94ktds',
-        templateParams
-      );
+      await sendEmail(templateParams);
 
       setSubmitStatus('success');
       setFormData({

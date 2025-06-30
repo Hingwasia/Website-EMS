@@ -1,21 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBrain, FaBolt, FaRocket } from 'react-icons/fa';
+import { useInView } from '../../hooks/useIntersectionObserver';
 
-const AIHeroSection: React.FC = () => {
+const AIHeroSection: React.FC = React.memo(() => {
+  const { ref, isInView } = useInView({ threshold: 0.1 });
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setIsVisible(true);
-  }, []);
+    if (isInView) {
+      setIsVisible(true);
+    }
+  }, [isInView]);
+
+  // Memoize stats data to prevent recreation
+  const statsData = React.useMemo(() => [
+    { value: "50%", label: "Cost Reduction" },
+    { value: "3x", label: "Faster Decisions" },
+    { value: "85%", label: "Task Automation" },
+    { value: "24/7", label: "AI Operations" }
+  ], []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
-      {/* Background decorative elements */}
+    <section 
+      ref={ref}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50"
+    >
+      {/* Background decorative elements - optimized with transform3d */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style={{ animationDelay: '4s' }}></div>
+        <div 
+          className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float"
+          style={{ willChange: 'transform' }}
+        ></div>
+        <div 
+          className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" 
+          style={{ animationDelay: '2s', willChange: 'transform' }}
+        ></div>
+        <div 
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" 
+          style={{ animationDelay: '4s', willChange: 'transform' }}
+        ></div>
       </div>
 
       <div className="container mx-auto px-6 pt-20 relative z-10">
@@ -56,32 +80,28 @@ const AIHeroSection: React.FC = () => {
                 </a>
               </div>
 
-              {/* AI Highlights */}
+              {/* AI Highlights - optimized grid */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-8">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-indigo-600">50%</div>
-                  <div className="text-sm text-gray-600">Cost Reduction</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">3x</div>
-                  <div className="text-sm text-gray-600">Faster Decisions</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-pink-600">85%</div>
-                  <div className="text-sm text-gray-600">Task Automation</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-indigo-600">24/7</div>
-                  <div className="text-sm text-gray-600">AI Operations</div>
-                </div>
+                {statsData.map((stat, index) => (
+                  <div key={stat.label} className="text-center">
+                    <div className={`text-2xl font-bold ${
+                      index === 0 ? 'text-indigo-600' :
+                      index === 1 ? 'text-purple-600' :
+                      index === 2 ? 'text-pink-600' : 'text-indigo-600'
+                    }`}>
+                      {stat.value}
+                    </div>
+                    <div className="text-sm text-gray-600">{stat.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* AI Visual Elements */}
+            {/* AI Visual Elements - optimized with transform3d */}
             <div className={`relative ${isVisible ? 'animate-fade-in-left' : 'opacity-0'}`} style={{ animationDelay: '0.3s' }}>
               <div className="relative">
                 {/* AI Dashboard Mockup */}
-                <div className="bg-white rounded-2xl shadow-2xl p-6 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                <div className="bg-white rounded-2xl shadow-2xl p-6 transform rotate-2 hover:rotate-0 transition-transform duration-500" style={{ willChange: 'transform' }}>
                   <div className="flex items-center space-x-3 mb-4">
                     <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                     <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
@@ -148,21 +168,21 @@ const AIHeroSection: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Floating AI Elements */}
-                <div className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-lg transform rotate-12 animate-float flex items-center justify-center">
+                {/* Floating AI Elements - optimized with transform3d */}
+                <div className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-lg transform rotate-12 animate-float flex items-center justify-center" style={{ willChange: 'transform' }}>
                   <div className="text-center">
                     <FaBrain className="text-lg text-white" />
                     <div className="text-xs text-white font-bold">AI</div>
                   </div>
                 </div>
                 
-                <div className="absolute -bottom-4 -left-4 w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg animate-float flex items-center justify-center" style={{ animationDelay: '1s' }}>
+                <div className="absolute -bottom-4 -left-4 w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg animate-float flex items-center justify-center" style={{ animationDelay: '1s', willChange: 'transform' }}>
                   <div className="text-center">
                     <FaBolt className="text-lg text-white" />
                   </div>
                 </div>
 
-                <div className="absolute top-1/2 -left-6 w-12 h-12 bg-gradient-to-r from-pink-500 to-indigo-500 rounded-lg shadow-lg animate-float flex items-center justify-center" style={{ animationDelay: '2s' }}>
+                <div className="absolute top-1/2 -left-6 w-12 h-12 bg-gradient-to-r from-pink-500 to-indigo-500 rounded-lg shadow-lg animate-float flex items-center justify-center" style={{ animationDelay: '2s', willChange: 'transform' }}>
                   <div className="text-lg">
                     <FaRocket className='text-white' />
                   </div>
@@ -181,6 +201,8 @@ const AIHeroSection: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+AIHeroSection.displayName = 'AIHeroSection';
 
 export default AIHeroSection; 

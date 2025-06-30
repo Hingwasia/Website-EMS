@@ -1,6 +1,6 @@
 import React from 'react';
 
-const WhatsAppButton: React.FC = () => {
+const WhatsAppButton: React.FC = React.memo(() => {
   const phoneNumber = "+919582024696";
   const message = "Hi! I'm interested in learning more about EaseMySaaS services.";
   
@@ -29,6 +29,8 @@ const WhatsAppButton: React.FC = () => {
       </div>
     </button>
   );
-};
+});
+
+WhatsAppButton.displayName = 'WhatsAppButton';
 
 export default WhatsAppButton; 

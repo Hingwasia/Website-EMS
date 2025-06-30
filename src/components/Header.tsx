@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logoIcon from '../assets/logo-icon.svg';
 
-// Sparkling AI Icon Component
-const SparkleIcon: React.FC = () => {
+// Sparkling AI Icon Component - memoized for performance
+const SparkleIcon: React.FC = React.memo(() => {
   return (
     <div className="relative inline-flex items-center">
       <svg 
@@ -31,36 +31,50 @@ const SparkleIcon: React.FC = () => {
       </svg>
     </div>
   );
-};
+});
 
-const Header: React.FC = () => {
+SparkleIcon.displayName = 'SparkleIcon';
+
+const Header: React.FC = React.memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+  // Memoize scroll handler to prevent recreation on every render
+  const handleScroll = useCallback(() => {
+    setIsScrolled(window.scrollY > 50);
   }, []);
+
+  // Memoize menu toggle to prevent recreation
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => !prev);
+  }, []);
+
+  // Memoize menu close handler
+  const closeMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(false);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
   const isHomePage = location.pathname === '/';
 
-  const navItems = [
+  // Memoize navigation items to prevent recreation
+  const navItems = React.useMemo(() => [
     { name: 'Home', href: isHomePage ? '#home' : '/', isInternal: !isHomePage },
     { name: 'AI Solutions', href: '/ai', isInternal: true, hasSparkle: true },
     { name: 'Packages', href: '/ai-packages', isInternal: true },
     { name: 'About Us', href: '/about', isInternal: true },
     { name: 'Contact', href: '/contact', isInternal: true }
-  ];
+  ], [isHomePage]);
 
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
+        isScrolled || isMobileMenuOpen
           ? 'bg-white/95 backdrop-blur-md shadow-lg' 
           : 'bg-transparent'
       }`}
@@ -69,7 +83,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <img src={logoIcon} alt="EaseMySaaS Logo" className="w-10 h-10" />
+            <img src={logoIcon} alt="EaseMySaaS Logo" className="w-10 h-10" loading="eager" />
             <span className="text-xl font-bold text-gray-900">EaseMySaaS</span>
           </Link>
 
@@ -113,8 +127,9 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={toggleMobileMenu}
             className="md:hidden p-2"
+            aria-label="Toggle mobile menu"
           >
             <div className="w-6 h-6 flex flex-col justify-center items-center">
               <span className={`block w-5 h-0.5 bg-gray-900 transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-1'}`}></span>
@@ -136,7 +151,7 @@ const Header: React.FC = () => {
                     className={`flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors duration-200 ${
                       location.pathname === item.href ? 'text-blue-600 font-semibold' : ''
                     }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                   >
                     {item.hasSparkle && <SparkleIcon />}
                     <span>{item.name}</span>
@@ -146,7 +161,7 @@ const Header: React.FC = () => {
                     key={item.name}
                     href={item.href}
                     className="text-gray-700 hover:text-blue-600 transition-colors duration-200"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                   >
                     {item.name}
                   </a>
@@ -155,7 +170,7 @@ const Header: React.FC = () => {
               <Link
                 to="/contact"
                 className="btn-primary bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-medium text-center"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={closeMobileMenu}
               >
                 Get Free Audit
               </Link>
@@ -165,6 +180,8 @@ const Header: React.FC = () => {
       </div>
     </header>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 export default Header; 

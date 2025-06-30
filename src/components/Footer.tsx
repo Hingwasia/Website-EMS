@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logoIcon from '../assets/logo-icon.svg';
 
-const Footer: React.FC = () => {
+const Footer: React.FC = React.memo(() => {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = {
@@ -155,6 +155,8 @@ const Footer: React.FC = () => {
       </button>
     </footer>
   );
-};
+});
+
+Footer.displayName = 'Footer';
 
 export default Footer; 

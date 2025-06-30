@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import emailjs from '@emailjs/browser';
+import { sendEmail } from '../utils/emailjs';
 
 const DiscoverySection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -52,8 +52,6 @@ const DiscoverySection: React.FC = () => {
     setSubmitStatus('idle');
 
     try {
-      emailjs.init('Db4TAst00TIb7TuLO');
-      
       const templateParams = {
         Full_Name: formData.Full_Name,
         Email_Address: formData.Email_Address,
@@ -66,11 +64,7 @@ const DiscoverySection: React.FC = () => {
         Project_Details: formData.Project_Details || 'Discovery call request',
       };
 
-      await emailjs.send(
-        'service_v46y05j',
-        'template_l94ktds',
-        templateParams
-      );
+      await sendEmail(templateParams);
 
       setSubmitStatus('success');
       setFormData({

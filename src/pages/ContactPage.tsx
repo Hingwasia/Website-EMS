@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import emailjs from '@emailjs/browser';
+import { sendEmail } from '../utils/emailjs';
 import SEO from '../components/SEO';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -93,9 +93,6 @@ const ContactPage: React.FC = () => {
     setSubmitStatus('idle');
 
     try {
-      // Initialize EmailJS with your public key (replace 'YOUR_PUBLIC_KEY' with your actual public key)
-      emailjs.init('Db4TAst00TIb7TuLO');
-      
       const templateParams = {
         Full_Name: formData.Full_Name,
         Email_Address: formData.Email_Address,
@@ -108,11 +105,7 @@ const ContactPage: React.FC = () => {
         Project_Details: formData.Project_Details,
       };
 
-      await emailjs.send(
-        'service_v46y05j', // Your service ID
-        'template_l94ktds', // Your template ID
-        templateParams
-      );
+      await sendEmail(templateParams);
 
       setSubmitStatus('success');
       // Reset form
