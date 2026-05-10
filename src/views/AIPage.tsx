@@ -99,7 +99,7 @@ const AIPage: React.FC = () => {
         structuredData={aiStructuredData}
       />
       <Header />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <AIHeroSection />
         <AITransformationSection />
         <AIServicesSection />

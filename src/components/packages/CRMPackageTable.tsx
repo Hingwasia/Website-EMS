@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const CRMPackageTable: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -137,7 +139,7 @@ const CRMPackageTable: React.FC = () => {
                   <div></div>
                   <div className="text-center">
                     <Link
-                      to="/contact"
+                      href="/contact"
                       className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 block"
                     >
                       Get Started
@@ -145,7 +147,7 @@ const CRMPackageTable: React.FC = () => {
                   </div>
                   <div className="text-center">
                     <Link
-                      to="/contact"
+                      href="/contact"
                       className="w-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 block"
                     >
                       Choose Growth
@@ -153,7 +155,7 @@ const CRMPackageTable: React.FC = () => {
                   </div>
                   <div className="text-center">
                     <Link
-                      to="/contact"
+                      href="/contact"
                       className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 block"
                     >
                       Contact Us

@@ -158,3 +158,45 @@ body {
 .aspect-ratio-1-1 {
   aspect-ratio: 1 / 1;
 }
+
+/* Route transition progress bar */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: linear-gradient(90deg, #2563eb 0%, #7c3aed 100%) !important;
+  height: 3px !important;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.45), 0 0 5px rgba(124, 58, 237, 0.35);
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #3b82f6, 0 0 5px #8b5cf6;
+}
+
+#nprogress .spinner {
+  display: none !important;
+}
+
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 1000;
+  transform: translateY(-200%);
+  background: #ffffff;
+  color: #1d4ed8;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}

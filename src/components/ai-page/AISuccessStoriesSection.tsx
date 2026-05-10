@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FaShoppingBag, FaStethoscope, FaChartBar } from 'react-icons/fa';
 
 const AISuccessStoriesSection: React.FC = () => {
@@ -222,7 +224,7 @@ const AISuccessStoriesSection: React.FC = () => {
                 Join these businesses and transform your operations with AI.
               </p>
               <Link
-                to="/ai-packages"
+                href="/ai-packages"
                 className="inline-flex items-center space-x-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300"
               >
                 <span>Explore AI Packages</span>

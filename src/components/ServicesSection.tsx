@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from 'react';
 import ContactModal from './ContactModal';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FaTools, FaLink, FaChartBar } from 'react-icons/fa';
 
 const ServicesSection: React.FC = () => {
@@ -201,7 +203,7 @@ const ServicesSection: React.FC = () => {
               Not sure which solution fits your business?
             </p>
             <Link
-              to="/contact"
+              href="/contact"
               className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
             >
               <span>Get a Free Consultation</span>

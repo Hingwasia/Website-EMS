@@ -162,7 +162,7 @@ const Homepage: React.FC = () => {
         structuredData={enhancedStructuredData}
       />
       <Header />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <HeroSection />
         <ServicesSection />
         <ProcessSection />

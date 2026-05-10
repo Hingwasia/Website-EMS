@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import logoIcon from '../assets/logo-icon.svg';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 // Sparkling AI Icon Component - memoized for performance
 const SparkleIcon: React.FC = React.memo(() => {
@@ -38,7 +40,7 @@ SparkleIcon.displayName = 'SparkleIcon';
 const Header: React.FC = React.memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
 
   // Memoize scroll handler to prevent recreation on every render
   const handleScroll = useCallback(() => {
@@ -60,7 +62,7 @@ const Header: React.FC = React.memo(() => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  const isHomePage = location.pathname === '/';
+  const isHomePage = pathname === '/';
 
   // Memoize navigation items to prevent recreation
   const navItems = React.useMemo(() => [
@@ -82,23 +84,24 @@ const Header: React.FC = React.memo(() => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <img src={logoIcon} alt="EaseMySaaS Logo" className="w-10 h-10" loading="eager" />
+          <Link href="/" className="flex items-center space-x-3">
+            <img src="/logo-icon.svg" alt="EaseMySaaS Logo" className="w-10 h-10" loading="eager" />
             <span className="text-xl font-bold text-gray-900">EaseMySaaS</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav aria-label="Primary" className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               item.isInternal ? (
                 <Link
                   key={item.name}
-                  to={item.href}
+                  href={item.href}
+                  aria-current={pathname === item.href ? 'page' : undefined}
                   className={`flex items-center space-x-2 transition-colors duration-200 hover:text-blue-600 ${
                     isScrolled ? 'text-gray-700' : 'text-gray-900'
-                  } ${location.pathname === item.href ? 'text-blue-600 font-semibold' : ''}`}
+                  } ${pathname === item.href ? 'text-blue-600 font-semibold' : ''}`}
                 >
-                  {item.hasSparkle && <SparkleIcon />}
+                  {item.hasSparkle && <SparkleIcon aria-hidden="true" />}
                   <span>{item.name}</span>
                 </Link>
               ) : (
@@ -118,7 +121,8 @@ const Header: React.FC = React.memo(() => {
           {/* CTA Button */}
           <div className="hidden md:block">
             <Link
-              to="/contact"
+              href="/contact"
+              aria-label="Get a free audit"
               className="btn-primary bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
             >
               Get Free Audit
@@ -127,9 +131,12 @@ const Header: React.FC = React.memo(() => {
 
           {/* Mobile Menu Button */}
           <button
+            type="button"
             onClick={toggleMobileMenu}
             className="md:hidden p-2"
             aria-label="Toggle mobile menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
           >
             <div className="w-6 h-6 flex flex-col justify-center items-center">
               <span className={`block w-5 h-0.5 bg-gray-900 transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-1'}`}></span>
@@ -142,18 +149,19 @@ const Header: React.FC = React.memo(() => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-gray-200">
-            <nav className="flex flex-col space-y-4 pt-4">
+            <nav id="mobile-navigation" aria-label="Mobile" className="flex flex-col space-y-4 pt-4">
               {navItems.map((item) => (
                 item.isInternal ? (
                   <Link
                     key={item.name}
-                    to={item.href}
+                    href={item.href}
+                    aria-current={pathname === item.href ? 'page' : undefined}
                     className={`flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors duration-200 ${
-                      location.pathname === item.href ? 'text-blue-600 font-semibold' : ''
+                      pathname === item.href ? 'text-blue-600 font-semibold' : ''
                     }`}
                     onClick={closeMobileMenu}
                   >
-                    {item.hasSparkle && <SparkleIcon />}
+                    {item.hasSparkle && <SparkleIcon aria-hidden="true" />}
                     <span>{item.name}</span>
                   </Link>
                 ) : (
@@ -168,7 +176,7 @@ const Header: React.FC = React.memo(() => {
                 )
               ))}
               <Link
-                to="/contact"
+                href="/contact"
                 className="btn-primary bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-medium text-center"
                 onClick={closeMobileMenu}
               >

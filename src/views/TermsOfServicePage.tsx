@@ -49,7 +49,7 @@ const TermsOfServicePage: React.FC = () => {
         structuredData={termsStructuredData}
       />
       <Header />
-      <main className="pt-20">
+      <main id="main-content" tabIndex={-1} className="pt-20">
         <TermsOfServiceHeroSection />
         <TermsOfServiceContentSection />
       </main>

@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FaSearch, FaTools, FaCog, FaRocket } from 'react-icons/fa';
 
 const ProcessSection: React.FC = () => {
@@ -224,7 +226,7 @@ const ProcessSection: React.FC = () => {
                 Let's start with a free audit to identify opportunities in your current setup.
               </p>
               <Link
-                to="/contact"
+                href="/contact"
                 className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               >
                 <span>Book Discovery Call</span>

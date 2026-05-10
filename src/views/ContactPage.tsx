@@ -1,5 +1,8 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { sendEmail } from '../utils/emailjs';
+import { validateContactPageForm, type ContactPageFormValues } from '../utils/formValidation';
 import SEO from '../components/SEO';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -74,10 +77,34 @@ const ContactPage: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errors, setErrors] = useState<Partial<Record<keyof ContactPageFormValues, string>>>({});
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const getFieldClass = (field: keyof ContactPageFormValues) =>
+    `w-full px-4 py-3 border rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:border-transparent ${errors[field] ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'}`;
+
+  const setFieldError = (field: keyof ContactPageFormValues, nextValues: ContactPageFormValues) => {
+    const fieldError = validateContactPageForm(nextValues)[field];
+    setErrors(prev => {
+      const updated = { ...prev };
+      if (fieldError) {
+        updated[field] = fieldError;
+      } else {
+        delete updated[field];
+      }
+      return updated;
+    });
+    return fieldError;
+  };
+
+  const handleFieldBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    const field = name as keyof ContactPageFormValues;
+    setFieldError(field, { ...formData, [field]: value } as ContactPageFormValues);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -89,6 +116,20 @@ const ContactPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const nextErrors = validateContactPageForm(formData);
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      setSubmitStatus('idle');
+      setIsSubmitting(false);
+      const firstInvalidField = Object.keys(nextErrors)[0];
+      window.requestAnimationFrame(() => {
+        document.getElementById(firstInvalidField)?.focus();
+      });
+      return;
+    }
+
+    setErrors({});
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
@@ -141,6 +182,8 @@ const ContactPage: React.FC = () => {
       <Header />
       <WhatsAppButton />
 
+      <main id="main-content" tabIndex={-1}>
+
       {/* Hero Section */}
       <section className="pt-24 pb-16 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div className="container mx-auto px-6">
@@ -191,7 +234,18 @@ const ContactPage: React.FC = () => {
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">Get Started Today</h2>
                 <p className="text-gray-600 mb-8">Fill out the form below and we'll get back to you within 24 hours with a customized solution.</p>
                 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                
+                <form onSubmit={handleSubmit} noValidate className="space-y-6" aria-describedby="contact-form-summary">
+                  <div id="contact-form-summary" aria-live="polite" className="sr-only">
+                    {Object.keys(errors).length > 0 ? 'Please fix the highlighted fields before sending the form.' : ''}
+                  </div>
+
+                  {Object.keys(errors).length > 0 && (
+                    <div role="alert" className="rounded-lg border border-red-200 bg-red-50 p-4">
+                      <p className="font-medium text-red-800">Please fix the highlighted fields below.</p>
+                    </div>
+                  )}
+
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="Full_Name" className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
@@ -200,11 +254,16 @@ const ContactPage: React.FC = () => {
                         id="Full_Name"
                         name="Full_Name"
                         required
+                        autoComplete="name"
+                        aria-invalid={Boolean(errors.Full_Name)}
+                        aria-describedby={errors.Full_Name ? 'Full_Name-error' : undefined}
                         value={formData.Full_Name}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        onBlur={handleFieldBlur}
+                        className={getFieldClass('Full_Name')}
                         placeholder="Your full name"
                       />
+                      {errors.Full_Name && <p id="Full_Name-error" className="mt-2 text-sm text-red-600" role="alert">{errors.Full_Name}</p>}
                     </div>
                     <div>
                       <label htmlFor="Email_Address" className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
@@ -213,11 +272,16 @@ const ContactPage: React.FC = () => {
                         id="Email_Address"
                         name="Email_Address"
                         required
+                        autoComplete="email"
+                        aria-invalid={Boolean(errors.Email_Address)}
+                        aria-describedby={errors.Email_Address ? 'Email_Address-error' : undefined}
                         value={formData.Email_Address}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        onBlur={handleFieldBlur}
+                        className={getFieldClass('Email_Address')}
                         placeholder="your@email.com"
                       />
+                      {errors.Email_Address && <p id="Email_Address-error" className="mt-2 text-sm text-red-600" role="alert">{errors.Email_Address}</p>}
                     </div>
                   </div>
 
@@ -228,11 +292,17 @@ const ContactPage: React.FC = () => {
                         type="tel"
                         id="Phone_Number"
                         name="Phone_Number"
+                        inputMode="tel"
+                        autoComplete="tel"
+                        aria-invalid={Boolean(errors.Phone_Number)}
+                        aria-describedby={errors.Phone_Number ? 'Phone_Number-error' : undefined}
                         value={formData.Phone_Number}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        onBlur={handleFieldBlur}
+                        className={getFieldClass('Phone_Number')}
                         placeholder="+91-XXXXXXXXXX"
                       />
+                      {errors.Phone_Number && <p id="Phone_Number-error" className="mt-2 text-sm text-red-600" role="alert">{errors.Phone_Number}</p>}
                     </div>
                     <div>
                       <label htmlFor="Company_Name" className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
@@ -240,11 +310,16 @@ const ContactPage: React.FC = () => {
                         type="text"
                         id="Company_Name"
                         name="Company_Name"
+                        autoComplete="organization"
+                        aria-invalid={Boolean(errors.Company_Name)}
+                        aria-describedby={errors.Company_Name ? 'Company_Name-error' : undefined}
                         value={formData.Company_Name}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        onBlur={handleFieldBlur}
+                        className={getFieldClass('Company_Name')}
                         placeholder="Your company"
                       />
+                      {errors.Company_Name && <p id="Company_Name-error" className="mt-2 text-sm text-red-600" role="alert">{errors.Company_Name}</p>}
                     </div>
                   </div>
 
@@ -254,11 +329,15 @@ const ContactPage: React.FC = () => {
                       type="text"
                       id="Current_Stack"
                       name="Current_Stack"
+                      aria-invalid={Boolean(errors.Current_Stack)}
+                      aria-describedby={errors.Current_Stack ? 'Current_Stack-error' : undefined}
                       value={formData.Current_Stack}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      onBlur={handleFieldBlur}
+                      className={getFieldClass('Current_Stack')}
                       placeholder="e.g., HubSpot, Salesforce, Pipedrive..."
                     />
+                    {errors.Current_Stack && <p id="Current_Stack-error" className="mt-2 text-sm text-red-600" role="alert">{errors.Current_Stack}</p>}
                   </div>
 
                   <div>
@@ -268,11 +347,15 @@ const ContactPage: React.FC = () => {
                       name="Biggest_Challenge"
                       required
                       rows={3}
+                      aria-invalid={Boolean(errors.Biggest_Challenge)}
+                      aria-describedby={errors.Biggest_Challenge ? 'Biggest_Challenge-error' : undefined}
                       value={formData.Biggest_Challenge}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      onBlur={handleFieldBlur}
+                      className={getFieldClass('Biggest_Challenge')}
                       placeholder="What are your biggest business challenges right now?"
                     ></textarea>
+                    {errors.Biggest_Challenge && <p id="Biggest_Challenge-error" className="mt-2 text-sm text-red-600" role="alert">{errors.Biggest_Challenge}</p>}
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4">
@@ -282,9 +365,12 @@ const ContactPage: React.FC = () => {
                         id="Service_Interest"
                         name="Service_Interest"
                         required
+                        aria-invalid={Boolean(errors.Service_Interest)}
+                        aria-describedby={errors.Service_Interest ? 'Service_Interest-error' : undefined}
                         value={formData.Service_Interest}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        onBlur={handleFieldBlur}
+                        className={getFieldClass('Service_Interest')}
                       >
                         <option value="">Select a service</option>
                         <option value="crm-implementation">CRM Implementation</option>
@@ -294,22 +380,27 @@ const ContactPage: React.FC = () => {
                         <option value="consulting">Strategic Consulting</option>
                         <option value="training">Training & Support</option>
                       </select>
+                      {errors.Service_Interest && <p id="Service_Interest-error" className="mt-2 text-sm text-red-600" role="alert">{errors.Service_Interest}</p>}
                     </div>
                     <div>
                       <label htmlFor="Project_Budget" className="block text-sm font-medium text-gray-700 mb-2">Project Budget</label>
                       <select
                         id="Project_Budget"
                         name="Project_Budget"
+                        aria-invalid={Boolean(errors.Project_Budget)}
+                        aria-describedby={errors.Project_Budget ? 'Project_Budget-error' : undefined}
                         value={formData.Project_Budget}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        onBlur={handleFieldBlur}
+                        className={getFieldClass('Project_Budget')}
                       >
                         <option value="">Select budget range</option>
-                        <option value="under-5l">Under ₹5 Lakhs</option>
-                        <option value="5l-15l">₹5 - 15 Lakhs</option>
-                        <option value="15l-50l">₹15 - 50 Lakhs</option>
-                        <option value="above-50l">Above ₹50 Lakhs</option>
+                        <option value="under-5l">Under ?5 Lakhs</option>
+                        <option value="5l-15l">?5 - 15 Lakhs</option>
+                        <option value="15l-50l">?15 - 50 Lakhs</option>
+                        <option value="above-50l">Above ?50 Lakhs</option>
                       </select>
+                      {errors.Project_Budget && <p id="Project_Budget-error" className="mt-2 text-sm text-red-600" role="alert">{errors.Project_Budget}</p>}
                     </div>
                   </div>
 
@@ -320,18 +411,22 @@ const ContactPage: React.FC = () => {
                       name="Project_Details"
                       required
                       rows={4}
+                      aria-invalid={Boolean(errors.Project_Details)}
+                      aria-describedby={errors.Project_Details ? 'Project_Details-error' : undefined}
                       value={formData.Project_Details}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      onBlur={handleFieldBlur}
+                      className={getFieldClass('Project_Details')}
                       placeholder="Tell us about your project requirements, challenges, and goals..."
                     ></textarea>
+                    {errors.Project_Details && <p id="Project_Details-error" className="mt-2 text-sm text-red-600" role="alert">{errors.Project_Details}</p>}
                   </div>
 
                   {/* Success/Error Messages */}
                   {submitStatus === 'success' && (
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4" role="status" aria-live="polite">
                       <div className="flex items-center">
-                        <svg className="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-green-500 mr-2" aria-hidden="true" focusable="false" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                         <p className="text-green-700 font-medium">Message sent successfully! We'll get back to you within 24 hours.</p>
@@ -339,10 +434,10 @@ const ContactPage: React.FC = () => {
                     </div>
                   )}
                   
-                  {submitStatus === 'error' && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                  {submitStatus === 'error' && !Object.keys(errors).length && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4" role="alert">
                       <div className="flex items-center">
-                        <svg className="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-red-500 mr-2" aria-hidden="true" focusable="false" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                         </svg>
                         <p className="text-red-700 font-medium">Failed to send message. Please try again or contact us directly.</p>
@@ -353,7 +448,7 @@ const ContactPage: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`w-full px-8 py-4 rounded-lg font-semibold transition-all duration-200 ${
+                    className={`w-full px-8 py-4 rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 ${
                       isSubmitting
                         ? 'bg-gray-400 text-white cursor-not-allowed'
                         : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg transform hover:scale-[1.02]'
@@ -361,7 +456,7 @@ const ContactPage: React.FC = () => {
                   >
                     {isSubmitting ? (
                       <div className="flex items-center justify-center">
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
@@ -372,6 +467,7 @@ const ContactPage: React.FC = () => {
                     )}
                   </button>
                 </form>
+
               </div>
             </div>
 
@@ -534,6 +630,7 @@ const ContactPage: React.FC = () => {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   );

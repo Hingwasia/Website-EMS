@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const AICRMPackageTable: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -145,7 +147,7 @@ const AICRMPackageTable: React.FC = () => {
                   <div></div>
                   <div className="text-center">
                     <Link
-                      to="/contact"
+                      href="/contact"
                       className="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 block"
                     >
                       Get Started
@@ -153,7 +155,7 @@ const AICRMPackageTable: React.FC = () => {
                   </div>
                   <div className="text-center">
                     <Link
-                      to="/contact"
+                      href="/contact"
                       className="w-full bg-gradient-to-r from-pink-500 to-pink-600 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 block"
                     >
                       Choose Pro
@@ -161,7 +163,7 @@ const AICRMPackageTable: React.FC = () => {
                   </div>
                   <div className="text-center">
                     <Link
-                      to="/contact"
+                      href="/contact"
                       className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 block"
                     >
                       Contact Us
@@ -183,13 +185,13 @@ const AICRMPackageTable: React.FC = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  to="/contact"
+                  href="/contact"
                   className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                 >
                   Talk to a Consultant
                 </Link>
                 <Link
-                  to="/contact"
+                  href="/contact"
                   className="border-2 border-purple-300 text-purple-700 px-8 py-4 rounded-lg font-semibold text-lg hover:border-purple-600 hover:text-purple-600 transition-all duration-300"
                 >
                   Request Custom Quote

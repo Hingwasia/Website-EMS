@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const AIServicesSection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -207,13 +209,13 @@ const AIServicesSection: React.FC = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  to="/ai-packages"
+                  href="/ai-packages"
                   className="btn-primary bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                 >
                   View AI Packages
                 </Link>
                 <Link
-                  to="/contact"
+                  href="/contact"
                   className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold text-lg hover:border-purple-600 hover:text-purple-600 transition-all duration-300"
                 >
                   Book AI Consultation

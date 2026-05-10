@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const AIPackageTable: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -143,7 +145,7 @@ const AIPackageTable: React.FC = () => {
                   <div></div>
                   <div className="text-center">
                     <Link
-                      to="/contact"
+                      href="/contact"
                       className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 block"
                     >
                       Get Started
@@ -151,7 +153,7 @@ const AIPackageTable: React.FC = () => {
                   </div>
                   <div className="text-center">
                     <Link
-                      to="/contact"
+                      href="/contact"
                       className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 block"
                     >
                       Most Popular
@@ -159,7 +161,7 @@ const AIPackageTable: React.FC = () => {
                   </div>
                   <div className="text-center">
                     <Link
-                      to="/contact"
+                      href="/contact"
                       className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 block"
                     >
                       Contact Us
@@ -180,7 +182,7 @@ const AIPackageTable: React.FC = () => {
                 Download our comprehensive Statement of Work (SOW) with detailed package information.
               </p>
               <Link
-                to="/contact"
+                href="/contact"
                 className="inline-flex items-center space-x-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

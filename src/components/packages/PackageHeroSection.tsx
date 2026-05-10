@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const PackageHeroSection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -47,7 +49,7 @@ const PackageHeroSection: React.FC = () => {
                 View All Packages
               </a>
               <Link
-                to="/contact"
+                href="/contact"
                 className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold text-lg hover:border-indigo-600 hover:text-indigo-600 transition-all duration-300"
               >
                 Talk to a Consultant

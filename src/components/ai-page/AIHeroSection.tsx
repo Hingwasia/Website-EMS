@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FaBrain, FaBolt, FaRocket } from 'react-icons/fa';
 import { useInView } from '../../hooks/useIntersectionObserver';
 
@@ -67,7 +69,7 @@ const AIHeroSection: React.FC = React.memo(() => {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
-                  to="/ai-packages"
+                  href="/ai-packages"
                   className="btn-primary bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-center"
                 >
                   Get Started with AI

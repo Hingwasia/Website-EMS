@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from 'react';
 import { FaBolt, FaMagic, FaBullseye, FaChartLine, FaSadTear, FaRocket } from 'react-icons/fa';
 

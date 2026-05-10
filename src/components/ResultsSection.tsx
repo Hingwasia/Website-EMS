@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FaBuilding, FaChartLine, FaBullseye, FaStar } from 'react-icons/fa';
 
 const ResultsSection: React.FC = () => {
@@ -243,7 +245,7 @@ const ResultsSection: React.FC = () => {
                   Every recommendation is backed by proven methodologies and documented in our comprehensive Notion system.
                 </p>
                 <Link
-                  to="/contact"
+                  href="/contact"
                   className="inline-flex items-center space-x-2 bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
                 >
                   <span>See Our Methodology</span>

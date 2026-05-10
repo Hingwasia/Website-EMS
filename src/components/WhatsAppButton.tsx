@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 
 const WhatsAppButton: React.FC = React.memo(() => {
@@ -11,12 +13,16 @@ const WhatsAppButton: React.FC = React.memo(() => {
 
   return (
     <button
+      type="button"
       onClick={handleWhatsAppClick}
       className="fixed bottom-24 right-8 w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 z-50 flex items-center justify-center group"
-      aria-label="Contact us on WhatsApp"
+      aria-label="Contact EaseMySaaS on WhatsApp"
+      aria-describedby="whatsapp-tooltip"
     >
       <svg 
         className="w-7 h-7" 
+        aria-hidden="true"
+        focusable="false"
         fill="currentColor" 
         viewBox="0 0 24 24"
       >
@@ -24,7 +30,7 @@ const WhatsAppButton: React.FC = React.memo(() => {
       </svg>
       
       {/* Tooltip */}
-      <div className="absolute right-16 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+      <div id="whatsapp-tooltip" role="tooltip" className="absolute right-16 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
         Chat with us on WhatsApp
       </div>
     </button>

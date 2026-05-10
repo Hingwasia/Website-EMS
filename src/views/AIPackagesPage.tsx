@@ -94,7 +94,7 @@ const AIPackagesPage: React.FC = () => {
         structuredData={packagesStructuredData}
       />
       <Header />
-      <main id="packages">
+      <main id="main-content" tabIndex={-1}>
         <PackageHeroSection />
         <CRMPackageTable />
         <AIPackageTable />

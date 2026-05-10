@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FaRocket, FaBolt, FaBullseye } from 'react-icons/fa';
 
 const AIPackagesSection: React.FC = () => {
@@ -130,7 +132,7 @@ const AIPackagesSection: React.FC = () => {
                 Need help choosing? 
               </div>
               <Link
-                to="/contact"
+                href="/contact"
                 className="text-indigo-600 hover:text-indigo-700 font-semibold text-sm underline"
               >
                 Compare All Packages
@@ -229,7 +231,7 @@ const AIPackagesSection: React.FC = () => {
                   {/* CTAs */}
                   <div className="p-8 pt-0 space-y-4">
                     <Link
-                      to="/contact"
+                      href="/contact"
                       className={`w-full text-center py-4 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${
                         pkg.popular
                           ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:shadow-xl'
@@ -240,7 +242,7 @@ const AIPackagesSection: React.FC = () => {
                     </Link>
                     
                     <Link
-                      to="/contact"
+                      href="/contact"
                       className="w-full text-center py-3 px-6 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-indigo-600 hover:text-indigo-600 transition-all duration-300 block"
                     >
                       Schedule Consultation
@@ -303,7 +305,7 @@ const AIPackagesSection: React.FC = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
-                    to="/contact"
+                    href="/contact"
                     className="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                   >
                     Get Free AI Assessment

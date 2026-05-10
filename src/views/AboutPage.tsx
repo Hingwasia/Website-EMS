@@ -1,9 +1,11 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from 'react';
 import SEO from '../components/SEO';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppButton from '../components/WhatsAppButton';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const AboutPage: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -82,7 +84,7 @@ const AboutPage: React.FC = () => {
       />
       <Header />
       
-      <main ref={sectionRef} className="pt-20">
+      <main id="main-content" tabIndex={-1} ref={sectionRef} className="pt-20">
         {/* Hero Section */}
         <section className="relative py-32 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 overflow-hidden">
           {/* Background Pattern */}
@@ -467,7 +469,7 @@ const AboutPage: React.FC = () => {
                     
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
                       <Link
-                        to="/contact"
+                        href="/contact"
                         className="group inline-flex items-center space-x-3 bg-white text-blue-600 px-8 py-4 rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
                       >
                         <span>Schedule Free Discovery Call</span>
